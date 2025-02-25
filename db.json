@@ -3,12 +3,12 @@
     {
       "id": 1,
       "topping": "Plain3",
-      "size": "Small",
+      "size": "Large",
       "vegetarian": true
     },
     {
       "id": 2,
-      "topping": "Pepperoni1",
+      "topping": "Pepperoni12",
       "size": "Small",
       "vegetarian": false
     },

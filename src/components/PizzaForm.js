@@ -36,6 +36,14 @@ function PizzaForm({selectedPizza,onUpdatedPizza}) {
     .then((updatePizza) => onUpdatedPizza(updatePizza));
   }
 
+  function handleVegetarianChange(value) {
+    setEditTopping((prev) => ({
+      ...prev,
+      vegetarian: value,
+    }));
+  }
+
+
   return (
     <form onSubmit={handleSubmit}>
       <div className="form-row">
@@ -50,7 +58,7 @@ function PizzaForm({selectedPizza,onUpdatedPizza}) {
           />
         </div>
         <div className="col">
-          <select className="form-control" name="size">
+          <select className="form-control" name="size" value={editTopping.size} onChange={handleChange} >
             <option value="Small">Small</option>
             <option value="Medium">Medium</option>
             <option value="Large">Large</option>
@@ -63,6 +71,8 @@ function PizzaForm({selectedPizza,onUpdatedPizza}) {
               type="radio"
               name="vegetarian"
               value="Vegetarian"
+              checked={editTopping.vegetarian === true}
+              onChange={() => handleVegetarianChange(true)}
             />
             <label className="form-check-label">Vegetarian</label>
           </div>
@@ -72,6 +82,8 @@ function PizzaForm({selectedPizza,onUpdatedPizza}) {
               type="radio"
               name="vegetarian"
               value="Not Vegetarian"
+              checked={editTopping.vegetarian === false}
+              onChange={() => handleVegetarianChange(false)}
             />
             <label className="form-check-label">Not Vegetarian</label>
           </div>
