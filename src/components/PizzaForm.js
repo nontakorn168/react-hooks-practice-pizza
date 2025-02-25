@@ -1,8 +1,43 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-function PizzaForm() {
+function PizzaForm({selectedPizza,onUpdatedPizza}) {
+
+  const [editTopping, setEditTopping] = useState({
+    id: "",
+    topping: "",
+    size: "Small",
+    vegetarian: false,
+  });
+
+  useEffect (() => {
+    if (selectedPizza) {
+      setEditTopping(selectedPizza)
+    
+    }
+  },[selectedPizza])
+
+  function handleChange(e) {
+    const { name, value, type, checked } = e.target;
+    setEditTopping((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    fetch(`http://localhost:3001/pizzas/${editTopping.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json"},
+      body: JSON.stringify(editTopping),
+    })
+    .then((r) => r.json())
+    .then((updatePizza) => onUpdatedPizza(updatePizza));
+  }
+
   return (
-    <form onSubmit={null /*handle that submit*/}>
+    <form onSubmit={handleSubmit}>
       <div className="form-row">
         <div className="col-5">
           <input
@@ -10,6 +45,8 @@ function PizzaForm() {
             type="text"
             name="topping"
             placeholder="Pizza Topping"
+            value={editTopping.topping}
+            onChange={handleChange}
           />
         </div>
         <div className="col">
